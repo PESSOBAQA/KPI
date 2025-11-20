@@ -134,6 +134,15 @@ function refreshAllTables() {
     populateNginIndicatorsTable();
 }
 
+function refreshAllTables() {
+    populateManagerTable();
+    populateUrkndTable();
+    populateNginDepartmentsTable();
+    populateNginIndicatorsTable();
+    // Таблица 5 не обновляется автоматически, так как это справочные данные
+}
+
+
 // Функция для обновления статуса подразделения на основе показателей
 function updateDepartmentNginStatus(deptId) {
     const dept = departments.find(d => d.id === deptId);
