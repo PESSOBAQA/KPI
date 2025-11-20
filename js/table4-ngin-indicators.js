@@ -8,15 +8,15 @@ function populateNginIndicatorsTable() {
         // Заголовок подразделения
         const headerRow = document.createElement('tr');
         headerRow.className = 'department-header';
-        headerRow.innerHTML = `<td colspan="6">${dept.name}</td>`;
+        headerRow.innerHTML = `<td colspan="7">${dept.name}</td>`;
         tbody.appendChild(headerRow);
         
         // Добавляем глобальный комментарий НГИН для подразделения
-        if (dept.nginStatus === 'approved' && !dept.indicators.some(ind => ind.nginComment)) {
+        if (dept.nginStatus === 'approved' && dept.nginGlobalComment) {
             const globalCommentRow = document.createElement('tr');
             globalCommentRow.innerHTML = `
-                <td colspan="6" class="global-comment">
-                    <strong>Общий комментарий НГИН:</strong> Все показатели подразделения согласованы
+                <td colspan="7" class="global-comment">
+                    <strong>Общий комментарий НГИН:</strong> ${dept.nginGlobalComment}
                 </td>
             `;
             tbody.appendChild(globalCommentRow);
@@ -32,35 +32,27 @@ function populateNginIndicatorsTable() {
             const urkndStatusText = getStatusText(indicator.urkndStatus);
             const urkndStatusClass = getStatusClass(indicator.urkndStatus);
             
-            // Определяем комментарий УРКНД
-            let urkndCommentText = '-';
-            let urkndCommentClass = 'pending';
-            
-            if (indicator.urkndComment) {
-                urkndCommentText = indicator.urkndComment;
-                urkndCommentClass = 'urknd-resolved';
-            }
-            
-            // Определяем текст комментария НГИН
-            let nginCommentText = indicator.nginComment;
-            if (!nginCommentText && dept.nginStatus === 'approved') {
-                nginCommentText = 'Показатель согласован';
-            }
-            
             row.innerHTML = `
                 <td><span class="indicator-code">${indicator.id}</span> ${indicator.name}</td>
                 <td class="${completionClass}">${indicator.completion}%</td>
-                <td class="approved">Согласовано</td>
+                <td class="${getStatusClass(indicator.managerStatus)}">
+                    ${getStatusText(indicator.managerStatus)}
+                </td>
                 <td class="${urkndStatusClass}">${urkndStatusText}</td>
                 <td>
-                    <textarea class="comment-input" placeholder="Оставить комментарий..." 
-                              onchange="updateNginComment(this, ${dept.id}, '${indicator.id}')">${nginCommentText || ''}</textarea>
+                    <textarea class="comment-input" placeholder="Комментарий НГИН..." 
+                              onchange="updateNginComment(this, ${dept.id}, '${indicator.id}')">${indicator.nginComment || ''}</textarea>
                 </td>
                 <td>
-                    ${indicator.nginComment || dept.nginStatus === 'approved' ? 
-                        `<textarea class="comment-input" placeholder="Комментарий УРКНД..." 
-                                  onchange="updateUrkndIndicatorComment(this, ${dept.id}, '${indicator.id}')">${indicator.urkndComment || ''}</textarea>` : 
-                        '-'}
+                    <textarea class="comment-input" placeholder="Комментарий УРКНД..." 
+                              onchange="updateUrkndComment(this, ${dept.id}, '${indicator.id}')">${indicator.urkndComment || ''}</textarea>
+                </td>
+                <td>
+                    <select class="status-select" onchange="updateNginIndicatorStatus(this, ${dept.id}, '${indicator.id}')">
+                        <option value="pending" ${indicator.nginStatus === 'pending' ? 'selected' : ''}>Не согласовано</option>
+                        <option value="approved" ${indicator.nginStatus === 'approved' ? 'selected' : ''}>Согласовано</option>
+                        <option value="revision" ${indicator.nginStatus === 'revision' ? 'selected' : ''}>Требует уточнения</option>
+                    </select>
                 </td>
             `;
             tbody.appendChild(row);
@@ -68,30 +60,45 @@ function populateNginIndicatorsTable() {
     });
 }
 
-function updateNginComment(textarea, deptId, indicatorId) {
-    const comment = textarea.value.trim();
+function updateNginIndicatorStatus(selectElement, deptId, indicatorId) {
+    const status = selectElement.value;
     const dept = departments.find(d => d.id === deptId);
     const indicator = dept.indicators.find(ind => ind.id === indicatorId);
     
-    // Обновляем комментарий
-    indicator.nginComment = comment;
+    indicator.nginStatus = status;
+    selectElement.className = `status-select ${getStatusClass(status)}`;
     
-    // Если добавляется комментарий, сбрасываем статус согласования подразделения
-    if (comment && dept.nginStatus === 'approved') {
-        dept.nginStatus = 'pending';
-        dept.nginGlobalComment = '';
-    }
+    // Обновляем статус подразделения на основе всех показателей
+    updateDepartmentNginStatus(deptId);
     
     refreshAllTables();
     checkCompletionStatus();
 }
 
-function updateUrkndIndicatorComment(textarea, deptId, indicatorId) {
+function updateNginComment(textarea, deptId, indicatorId) {
     const comment = textarea.value.trim();
     const dept = departments.find(d => d.id === deptId);
     const indicator = dept.indicators.find(ind => ind.id === indicatorId);
     
-    // Обновляем комментарий УРКНД для показателя
+    indicator.nginComment = comment;
+    
+    // Если добавляется комментарий, автоматически ставим статус "Требует уточнения"
+    if (comment && indicator.nginStatus !== 'approved') {
+        indicator.nginStatus = 'revision';
+    }
+    
+    // Обновляем статус подразделения
+    updateDepartmentNginStatus(deptId);
+    
+    refreshAllTables();
+    checkCompletionStatus();
+}
+
+function updateUrkndComment(textarea, deptId, indicatorId) {
+    const comment = textarea.value.trim();
+    const dept = departments.find(d => d.id === deptId);
+    const indicator = dept.indicators.find(ind => ind.id === indicatorId);
+    
     indicator.urkndComment = comment;
     
     checkCompletionStatus();

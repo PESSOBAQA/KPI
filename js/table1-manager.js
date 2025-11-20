@@ -19,16 +19,9 @@ function populateManagerTable() {
             const urkndStatusText = getStatusText(indicator.urkndStatus);
             const urkndStatusClass = getStatusClass(indicator.urkndStatus);
             
-            let nginStatusText = '-';
-            let nginStatusClass = 'pending';
-            
-            if (indicator.nginComment) {
-                nginStatusText = 'Уточнение';
-                nginStatusClass = 'revision';
-            } else if (dept.nginStatus === 'approved') {
-                nginStatusText = 'Согласовано';
-                nginStatusClass = 'approved';
-            }
+            // Статус НГИН для показателя - ИСПРАВЛЕНО
+            const nginStatusText = getNginIndicatorStatusText(indicator);
+            const nginStatusClass = getNginIndicatorStatusClass(indicator);
             
             row.innerHTML = `
                 <td><span class="indicator-code">${indicator.id}</span> ${indicator.name}</td>
