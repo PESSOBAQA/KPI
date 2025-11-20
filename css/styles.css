@@ -186,3 +186,40 @@ tr:nth-child(even) {
 h1, h2 {
     color: #2c3e50;
 }
+
+/* Стили для заголовков подразделений */
+.department-header {
+    background-color: #2c3e50 !important;
+    color: white !important;
+    font-weight: bold;
+    font-size: 1.1em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.department-header td {
+    padding: 16px 12px !important;
+    border-color: #34495e !important;
+}
+
+/* Убираем полосатость для строк после заголовка подразделения */
+.department-header + tr {
+    background-color: white;
+}
+
+.department-header + tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Общие стили для заголовков подразделений во всех таблицах */
+tr.department-header {
+    background-color: #2c3e50;
+    color: white;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+tr.department-header td {
+    padding: 16px 12px;
+    border-bottom: 2px solid #34495e;
+}
