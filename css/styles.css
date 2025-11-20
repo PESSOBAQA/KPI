@@ -1,0 +1,135 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    color: #333;
+    line-height: 1.6;
+}
+h1, h2 {
+    color: #2c3e50;
+}
+.table-container {
+    margin-bottom: 40px;
+    overflow-x: auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    background-color: #f9f9f9;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    background-color: white;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+.status-select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+}
+.comment-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    min-height: 60px;
+}
+.department-header {
+    background-color: #e8f4fd;
+    font-weight: bold;
+}
+.approved {
+    color: green;
+    font-weight: bold;
+}
+.revision {
+    color: orange;
+    font-weight: bold;
+}
+.pending {
+    color: #666;
+}
+.info-box {
+    background-color: #e8f4fd;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+.user-role {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 3px;
+    margin-right: 10px;
+    font-size: 0.9em;
+}
+.indicator-code {
+    font-weight: bold;
+    color: #2c3e50;
+}
+.completion-high {
+    color: green;
+    font-weight: bold;
+}
+.completion-medium {
+    color: orange;
+    font-weight: bold;
+}
+.completion-low {
+    color: red;
+    font-weight: bold;
+}
+.tab-container {
+    margin-bottom: 20px;
+}
+.tab {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #e9ecef;
+    cursor: pointer;
+    border-radius: 5px 5px 0 0;
+    margin-right: 5px;
+}
+.tab.active {
+    background-color: #3498db;
+    color: white;
+}
+.tab-content {
+    display: none;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 0 5px 5px 5px;
+}
+.tab-content.active {
+    display: block;
+}
+.urknd-resolved {
+    color: green;
+    font-weight: bold;
+}
+.auto-status {
+    font-style: italic;
+}
+.global-comment {
+    background-color: #e8f4fd;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-style: italic;
+}

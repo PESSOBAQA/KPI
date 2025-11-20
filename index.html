@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Система утверждения KPI</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <h1>Система утверждения KPI подразделений</h1>
+    
+    <div class="info-box">
+        <p><strong>Участники процесса:</strong></p>
+        <span class="user-role">ЗНГИН</span>
+        <span class="user-role">ДГБУ</span>
+        <span class="user-role">ЗДГБУ</span>
+        <span class="user-role">Руководители подразделений</span>
+        <span class="user-role">УРКНД</span>
+        <span class="user-role">НГИН</span>
+        
+        <p style="margin-top: 15px;"><strong>Логика процесса:</strong></p>
+        <ol>
+            <li>Руководители подразделений согласовывают показатели в Таблице 1</li>
+            <li>УРКНД проверяет и согласовывает показатели в Таблице 2</li>
+            <li>НГИН согласовывает подразделения в Таблице 3 или оставляет комментарии к отдельным показателям в Таблице 4</li>
+            <li>Процесс завершается, когда все подразделения согласованы</li>
+        </ol>
+    </div>
+
+    <div class="tab-container">
+        <div class="tab active" onclick="switchTab('tab1')">Таблица 1: Для руководителей</div>
+        <div class="tab" onclick="switchTab('tab2')">Таблица 2: Для УРКНД</div>
+        <div class="tab" onclick="switchTab('tab3')">Таблица 3: Для НГИН (подразделения)</div>
+        <div class="tab" onclick="switchTab('tab4')">Таблица 4: Для НГИН (показатели)</div>
+    </div>
+
+    <!-- Таблица 1 -->
+    <div id="tab1" class="tab-content active">
+        <h2>Таблица 1. Отчёт для руководителя по оценке показателей своего подразделения</h2>
+        <p><em>Руководители подразделений, ЗНГИН, ДГБУ и ЗДГБУ видят эту таблицу и согласовывают показатели.</em></p>
+        
+        <div class="table-container">
+            <table id="department-manager-table">
+                <thead>
+                    <tr>
+                        <th>НАЗВАНИЕ ПОКАЗАТЕЛЯ</th>
+                        <th>% ИСПОЛНЕНИЯ</th>
+                        <th>СТАТУС СОГЛАСОВАНИЯ РУКОВОДИТЕЛЯ</th>
+                        <th>СТАТУС СОГЛАСОВАНИЯ УРКНД</th>
+                        <th>СТАТУС СОГЛАСОВАНИЯ НГИН</th>
+                    </tr>
+                </thead>
+                <tbody id="manager-table-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Таблица 2 -->
+    <div id="tab2" class="tab-content">
+        <h2>Таблица 2. Отчёт для УРКНД по проверке показателей</h2>
+        <p><em>УРКНД проверяет и согласовывает показатели подразделений.</em></p>
+        
+        <div class="table-container">
+            <table id="urknd-table">
+                <thead>
+                    <tr>
+                        <th>НАЗВАНИЕ ПОКАЗАТЕЛЯ</th>
+                        <th>% ИСПОЛНЕНИЯ</th>
+                        <th>СТАТУС СОГЛАСОВАНИЯ РУКОВОДИТЕЛЯ</th>
+                        <th>СТАТУС СОГЛАСОВАНИЯ УРКНД</th>
+                        <th>СТАТУС СОГЛАСОВАНИЯ НГИН</th>
+                    </tr>
+                </thead>
+                <tbody id="urknd-table-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Таблица 3 -->
+    <div id="tab3" class="tab-content">
+        <h2>Таблица 3. Отчёт для НГИН по оценке KPI подразделений</h2>
+        <p><em>НГИН видит эту таблицу и согласовывает подразделения целиком.</em></p>
+        
+        <div class="table-container">
+            <table id="ngin-departments-table">
+                <thead>
+                    <tr>
+                        <th>СТРУКТУРНОЕ ПОДРАЗДЕЛЕНИЕ</th>
+                        <th>% СРЕДНЯЯ ОЦЕНКА</th>
+                        <th>СТАТУС СОГЛАСОВАНИЯ УРКНД</th>
+                        <th>СТАТУС СОГЛАСОВАНИЯ НГИН</th>
+                        <th>КОММЕНТАРИЙ УРКНД</th>
+                    </tr>
+                </thead>
+                <tbody id="ngin-departments-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Таблица 4 -->
+    <div id="tab4" class="tab-content">
+        <h2>Таблица 4. Отчёт для НГИН по отдельным показателям</h2>
+        <p><em>НГИН использует эту таблицу для уточнения отдельных показателей.</em></p>
+        
+        <div class="table-container">
+            <table id="ngin-indicators-table">
+                <thead>
+                    <tr>
+                        <th>НАЗВАНИЕ ПОКАЗАТЕЛЯ</th>
+                        <th>% ИСПОЛНЕНИЯ</th>
+                        <th>СТАТУС СОГЛАСОВАНИЯ РУКОВОДИТЕЛЯ</th>
+                        <th>СТАТУС СОГЛАСОВАНИЯ УРКНД</th>
+                        <th>КОММЕНТАРИЙ НГИН</th>
+                        <th>КОММЕНТАРИЙ УРКНД</th>
+                    </tr>
+                </thead>
+                <tbody id="ngin-indicators-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/table1-manager.js"></script>
+    <script src="js/table2-urknd.js"></script>
+    <script src="js/table3-ngin-departments.js"></script>
+    <script src="js/table4-ngin-indicators.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
